@@ -2,8 +2,20 @@ import React from "react";
 import { Navigate, NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
+import axios from "axios";
 function Users() {
   let history = useNavigate();
+  const [data, setData] = useState({});
+
+  useEffect(() => {
+    axios
+      .get("http://192.168.43.37:4000/user/63b0066ddd99fd4bb1a14859")
+      .then((response) => setData(response))
+      .catch((error) => console.log(error));
+  }, []);
+  console.log(data.data.firstname);
+
   return (
     <div>
       <div class="screen-overlay"></div>
@@ -168,12 +180,12 @@ function Users() {
                             ></img>
                           </div>
                           <div class="info pl-3">
-                            <h6 class="mb-0 title">Shahswar</h6>
-                            <small class="text-muted">user ID: #439</small>
+                            <h6 class="mb-0 title">{data.data.firstname}</h6>
+                            <small class="text-muted">{data.data._id}</small>
                           </div>
                         </a>
                       </td>
-                      <td>Shahswar@gmail.com</td>
+                      <td>{data.data.email}</td>
                       <td>
                         <span class="badge rounded-pill alert-success">
                           Active
