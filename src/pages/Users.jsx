@@ -1,67 +1,102 @@
 import React from "react";
-import { Navigate, NavLink } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
+import UsersCard from "./UsersCard";
 import { useState, useEffect } from "react";
 import axios from "axios";
+import Tableheader from "./Tableheader";
 function Users() {
-  let history = useNavigate();
-  const [data, setData] = useState({});
+  // const [data, setData] = useState([]);
+  const [filteredDataSource, setFilteredDataSource] = useState([]);
+  const [masterDataSource, setMasterDataSource] = useState([]);
+  const [search, setSearch] = useState("");
 
+
+  // 63b0066ddd99fd4bb1a14859
   useEffect(() => {
+    
+  
     axios
-      .get("http://192.168.43.37:4000/user/63b0066ddd99fd4bb1a14859")
-      .then((response) => setData(response))
-      .catch((error) => console.log(error));
+      .get("http://192.168.10.5:4000/users")
+      .then((response) => {
+        setFilteredDataSource(response.data);
+        setMasterDataSource(response.data);
+      })
+      // .catch((error) => console.log(error));
   }, []);
-  console.log(data.data.firstname);
+ 
+
+  console.log(filteredDataSource);
+
+  const searchFilterFunction = (text) => {
+    // Check if searched text is not blank
+    if (text) {
+      // Inserted text is not blank
+      // Filter the masterDataSource
+      // Update FilteredDataSource
+      const newData = masterDataSource.filter(function (item) {
+        const itemData = item.firstname
+          ? item.firstname.toUpperCase()
+          : "".toUpperCase();
+        const textData = text.toUpperCase();
+        return itemData.indexOf(textData) > -1;
+      });
+      setFilteredDataSource(newData);
+      setSearch(text);
+    } else {
+      // Inserted text is blank
+      // Update FilteredDataSource with masterDataSource
+      setFilteredDataSource(masterDataSource);
+      setSearch(text);
+    }
+  };
 
   return (
     <div>
-      <div class="screen-overlay"></div>
-      <aside class="navbar-aside" id="offcanvas_aside">
-        <div class="aside-top">
-          <a href="index.html" class="brand-wrap">
+      <div className="screen-overlay"></div>
+      <aside className="navbar-aside" id="offcanvas_aside">
+        <div className="aside-top">
+          <a href="index.html" className="brand-wrap">
             <img
               src="assets/imgs/theme/craftlogo.png"
-              class="logo"
+              className="logo"
               alt="CRFT Dashboard"
             ></img>
           </a>
         </div>
         <nav>
-          <ul class="menu-aside">
-            <li class="menu-item active">
+          <ul className="menu-aside">
+            <li className="menu-item active">
               <NavLink className="menu-link" exact to="/Dashboard">
                 <i className="icon material-icons md-home"></i>
-                <span class="text">Dashboard</span>
+                <span className="text">Dashboard</span>
               </NavLink>
             </li>
-            <li class="menu-item has-submenu">
+            <li className="menu-item has-submenu">
               <NavLink className="menu-link" exact to="/Users">
                 <i className="icon material-icons md-shopping_bag"></i>
                 <span className="text">users</span>
               </NavLink>
             </li>
-            <li class="menu-item has-submenu">
+            <li className="menu-item has-submenu">
               <NavLink className="menu-link" exact to="/SkillProviderList">
                 <i className="icon material-icons md-shopping_cart"></i>
                 <span className="text">Approve Skill Provider</span>
               </NavLink>
             </li>
 
-            <li class="menu-item">
+            <li className="menu-item">
               <NavLink className="menu-link" exact to="/History">
                 {" "}
-                <i class="icon material-icons md-comment"></i>
-                <span class="text">History</span>
+                <i className="icon material-icons md-comment"></i>
+                <span className="text">History</span>
               </NavLink>
             </li>
           </ul>
           <hr />
-          <ul class="menu-aside">
-            <li class="menu-item has-submenu">
-              <NavLink class="menu-link" exact to="/">
+          <ul className="menu-aside">
+            <li className="menu-item has-submenu">
+              <NavLink className="menu-link" exact to="/">
                 <i className="material-icons md-exit_to_app"></i>
                 <span className="text">Logout</span>
               </NavLink>
@@ -72,51 +107,40 @@ function Users() {
           <br />
         </nav>
       </aside>
-      <main class="main-wrap">
-        <header class="main-header navbar">
-          <div class="col-search">
-            <form class="searchform">
-              <div class="input-group">
-                <input
-                  list="search_terms"
-                  type="text"
-                  class="form-control"
-                  placeholder="Search term"
-                ></input>
-                <button class="btn btn-light bg" type="button">
-                  <i class="material-icons md-search"></i>
-                </button>
-              </div>
+      <main className="main-wrap">
+        <header className="main-header navbar">
+          <div className="col-search">
+            <form className="searchform">
               <datalist id="search_terms"></datalist>
             </form>
           </div>
-          <div class="col-nav">
+          <div className="col-nav">
             <button
-              class="btn btn-icon btn-mobile me-auto"
+              className="btn btn-icon btn-mobile me-auto"
               data-trigger="#offcanvas_aside"
             >
-              <i class="material-icons md-apps"></i>
+              <i className="material-icons md-apps"></i>
             </button>
-            <ul class="nav">
-              <li class="dropdown nav-item">
+            <ul className="nav">
+              <li className="dropdown nav-item">
                 <Link
-                  class="dropdown-toggle"
+                  className="dropdown-toggle"
                   data-bs-toggle="dropdown"
                   to="#"
                   id="dropdownAccount"
                   aria-expanded="false"
                 >
                   <img
-                    class="img-xs rounded-circle"
+                    className="img-xs rounded-circle"
                     src="assets/imgs/people/avatar2.jpg"
                     alt="User"
                   ></img>
                 </Link>
                 <div
-                  class="dropdown-menu dropdown-menu-end"
+                  className="dropdown-menu dropdown-menu-end"
                   aria-labelledby="dropdownAccount"
                 >
-                  <div class="dropdown-divider"></div>
+                  <div className="dropdown-divider"></div>
                   <Link className="dropdown-item text-danger" to="#">
                     <i className="material-icons md-exit_to_app"></i>Logout
                   </Link>
@@ -125,30 +149,32 @@ function Users() {
             </ul>
           </div>
         </header>
-        <section class="content-main">
-          <div class="content-header">
-            <h2 class="content-title">Users list</h2>
+        <section className="content-main">
+          <div className="content-header">
+            <h2 className="content-title">Users list</h2>
           </div>
-          <div class="card mb-4">
-            <header class="card-header">
-              <div class="row gx-3">
-                <div class="col-lg-4 col-md-6 me-auto">
+          <div className="card mb-4">
+            <header className="card-header">
+              <div className="row gx-3">
+                <div className="col-lg-4 col-md-6 me-auto">
                   <input
                     type="text"
                     placeholder="Search..."
-                    class="form-control"
+                    className="form-control"
+                    onChange={(e) => searchFilterFunction(e.target.value)}
+                    value={search}
                   />
                 </div>
-                <div class="col-lg-2 col-md-3 col-6">
-                  <select class="form-select">
+                <div className="col-lg-2 col-md-3 col-6">
+                  <select className="form-select">
                     <option>Status</option>
                     <option>Active</option>
                     <option>Disabled</option>
                     <option>Show all</option>
                   </select>
                 </div>
-                <div class="col-lg-2 col-md-3 col-6">
-                  <select class="form-select">
+                <div className="col-lg-2 col-md-3 col-6">
+                  <select className="form-select">
                     <option>Show 20</option>
                     <option>Show 30</option>
                     <option>Show 40</option>
@@ -156,97 +182,24 @@ function Users() {
                 </div>
               </div>
             </header>
-            <div class="card-body">
-              <div class="table-responsive">
-                <table class="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>Users</th>
-                      <th>Email</th>
-                      <th>Status</th>
-                      <th>Registered</th>
-                      <th class="text-end"> Action </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td width="40%">
-                        <a href="#" class="itemside">
-                          <div class="left">
-                            <img
-                              src="assets/imgs/people/avatar1.jpg"
-                              class="img-sm img-avatar"
-                              alt="Userpic"
-                            ></img>
-                          </div>
-                          <div class="info pl-3">
-                            <h6 class="mb-0 title">{data.data.firstname}</h6>
-                            <small class="text-muted">{data.data._id}</small>
-                          </div>
-                        </a>
-                      </td>
-                      <td>{data.data.email}</td>
-                      <td>
-                        <span class="badge rounded-pill alert-success">
-                          Active
-                        </span>
-                      </td>
-                      <td>08.07.2020</td>
-                      <td class="text-end">
-                        <button
-                          class="btn btn-sm btn-brand rounded font-sm mt-15"
-                          onClick={() => {
-                            history("/SkillProviderProfile");
-                          }}
-                        >
-                          View details
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+             <Tableheader/>
+            <div>
+              {filteredDataSource.map((item) => (
+                <div key={item.id}>
+                  <UsersCard
+                    name={item.firstname}
+                    id={item._id}
+                    email={item.email}
+                  />
+                  {/* <p>{item.name}</p> */}
+                  {/* <p>{item.description}</p> */}
+                </div>
+              ))}
             </div>
           </div>
-          <div class="pagination-area mt-15 mb-50">
-            <nav aria-label="Page navigation example">
-              <ul class="pagination justify-content-start">
-                <li class="page-item active">
-                  <a class="page-link" href="#">
-                    01
-                  </a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">
-                    02
-                  </a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">
-                    03
-                  </a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link dot" href="#">
-                    ...
-                  </a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">
-                    16
-                  </a>
-                </li>
-                <li class="page-item">
-                  <a class="page-link" href="#">
-                    <i class="material-icons md-chevron_right"></i>
-                  </a>
-                </li>
-              </ul>
-            </nav>
-          </div>
         </section>
-        <footer class="main-footer font-xs">
-          <div class="row pb-30 pt-15"></div>
+        <footer className="main-footer font-xs">
+          <div className="row pb-30 pt-15"></div>
         </footer>
       </main>
       <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>

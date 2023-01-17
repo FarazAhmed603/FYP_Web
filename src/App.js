@@ -7,11 +7,12 @@ import History from "./pages/History";
 import User from "./pages/Users";
 import { useState } from "react";
 import Setting from "./pages/Setting";
-import userProfile from "./pages/userProfile";
-import SkillProviderProfile from "./pages/SkillProviderList";
+import UserProfile from "./pages/UserProfile";
+import SkillProviderProfile from "./pages/SkillProviderProfile";
+import Error from "./pages/Error_page";
 
 function App() {
-  const [authorized, setAuthorized] = useState(true);
+  const [authorized] = useState(true);
   return (
     <Router>
       <Routes>
@@ -26,11 +27,13 @@ function App() {
         <Route path="/History" element={<History />} />
         <Route path="/Setting" element={<Setting />} />
 
-        <Route path="/userProfile" element={<userProfile />} />
+        <Route  path="/UserProfile" element={<UserProfile />} />
         <Route
+          
           path="/SkillProviderProfile"
           element={<SkillProviderProfile />}
         />
+        <Route path="/Error" element={<Error/>} />
       </Routes>
     </Router>
   );

@@ -74,18 +74,7 @@ function History() {
         <header class="main-header navbar">
           <div class="col-search">
             <form class="searchform">
-              <div class="input-group">
-                <input
-                  list="search_terms"
-                  type="text"
-                  class="form-control"
-                  placeholder="Search term"
-                ></input>
-                <button class="btn btn-light bg" type="button">
-                  {" "}
-                  <i class="material-icons md-search"></i>
-                </button>
-              </div>
+            
               <datalist id="search_terms"></datalist>
             </form>
           </div>

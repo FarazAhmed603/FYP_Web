@@ -1,18 +1,20 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
+import LatestContractsCard from "../LatestContractCard";
 
 import { NavLink } from "react-router-dom";
 function Dashboard({ authorized }) {
-  if (!authorized) {
-    return <Navigate to="/" replace />;
-  }
+  let history = useNavigate();
+  // if (!authorized) {
+  //   return <Navigate to="/" replace />;
+  // }
 
-  // const handleLogout = () => {
-
-  //   // history.push("/LoginPage");
-  //   return <Navigate from="/Dashboard" to="/" />;
-  // };
+  const handleLogout = () => {
+    localStorage.clear();
+    return history("/");
+  };
   return (
     <div>
       <div class="screen-overlay"></div>
@@ -58,10 +60,16 @@ function Dashboard({ authorized }) {
           <hr />
           <ul class="menu-aside">
             <li class="menu-item has-submenu">
-              <NavLink class="menu-link" exact to="/">
+              <button
+                class="menu-link"
+                onClick={() => {
+                  handleLogout();
+                }}
+              >
                 <i className="material-icons md-exit_to_app"></i>
+
                 <span className="text">Logout</span>
-              </NavLink>
+              </button>
             </li>
           </ul>
 
@@ -73,18 +81,6 @@ function Dashboard({ authorized }) {
         <header class="main-header navbar">
           <div class="col-search">
             <form class="searchform">
-              <div class="input-group">
-                <input
-                  list="search_terms"
-                  type="text"
-                  class="form-control"
-                  placeholder="Search term"
-                ></input>
-                <button class="btn btn-light bg" type="button">
-                  {" "}
-                  <i class="material-icons md-search"></i>
-                </button>
-              </div>
               <datalist id="search_terms"></datalist>
             </form>
           </div>
@@ -129,7 +125,7 @@ function Dashboard({ authorized }) {
           </div>
           <div class="card mb-4">
             <header class="card-header">
-              <h4 class="card-title">Latest orders</h4>
+              <h4 class="card-title">Latest Contracts</h4>
               <div class="row align-items-center">
                 <div class="col-md-3 col-12 me-auto mb-md-0 mb-3"></div>
                 <div class="col-md-2 col-6">
@@ -145,99 +141,12 @@ function Dashboard({ authorized }) {
                       <option selected>Status</option>
                       <option>All</option>
                       <option>Paid</option>
-                      <option>Chargeback</option>
-                      <option>Refund</option>
                     </select>
                   </div>
                 </div>
               </div>
             </header>
-            <div class="card-body">
-              <div class="table-responsive">
-                <div class="table-responsive">
-                  <table class="table align-middle table-nowrap mb-0">
-                    <thead class="table-light">
-                      <tr>
-                        <th scope="col" class="text-center">
-                          <div class="form-check align-middle">
-                            <input
-                              class="form-check-input"
-                              type="checkbox"
-                              id="transactionCheck01"
-                            ></input>
-                            <label
-                              class="form-check-label"
-                              for="transactionCheck01"
-                            ></label>
-                          </div>
-                        </th>
-                        <th class="align-middle" scope="col">
-                          contract ID
-                        </th>
-                        <th class="align-middle" scope="col">
-                          Skill Provider Name
-                        </th>
-                        <th class="align-middle" scope="col">
-                          Date
-                        </th>
-                        <th class="align-middle" scope="col">
-                          Total
-                        </th>
-                        <th class="align-middle" scope="col">
-                          Payment Status
-                        </th>
-                        <th class="align-middle" scope="col">
-                          Payment Method
-                        </th>
-                        <th class="align-middle" scope="col">
-                          View Details
-                        </th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td class="text-center">
-                          <div class="form-check">
-                            <input
-                              class="form-check-input"
-                              type="checkbox"
-                              id="transactionCheck02"
-                            ></input>
-                            <label
-                              class="form-check-label"
-                              for="transactionCheck02"
-                            ></label>
-                          </div>
-                        </td>
-                        <td>
-                          <a href="#" class="fw-bold">
-                            #SK2540
-                          </a>
-                        </td>
-                        <td>Shahswar</td>
-                        <td>07 Oct, 2021</td>
-                        <td>RS 1400</td>
-                        <td>
-                          <span class="badge badge-pill badge-soft-success">
-                            Paid
-                          </span>
-                        </td>
-                        <td>
-                          <i class="material-icons md-payment font-xxl text-muted mr-5"></i>{" "}
-                          easy pesa
-                        </td>
-                        <td>
-                          <a href="#" class="btn btn-xs">
-                            {" "}
-                            View details
-                          </a>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                </div>
-              </div>
-            </div>
+            <LatestContractsCard/>
           </div>
         </section>
         <footer class="main-footer font-xs">

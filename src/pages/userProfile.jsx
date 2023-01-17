@@ -1,55 +1,76 @@
 import React from "react";
-import { Navigate } from "react-router-dom";
+// import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { NavLink } from "react-router-dom";
-function userProfile() {
+import { NavLink, useLocation } from "react-router-dom";
+import { useEffect, useState } from "react";
+
+import Avatar from "react-avatar";
+import UserHistoryCard from "./UserHistoryCard";
+function UserProfile(props) {
+  const location = useLocation();
+  console.log(location.state);
+  const [data, setData] = useState({});
+  const id= location.state;
+  useEffect(() => {
+    async function fetchData() {
+        const response = await fetch(`http://192.168.10.5:4000/user/${id.currentId}`);
+        const data = await response.json();
+        setData(data);
+    }
+    fetchData();
+}, );
+ 
+
   return (
     <div>
-      <div class="screen-overlay"></div>
-      <aside class="navbar-aside" id="offcanvas_aside">
-        <div class="aside-top">
-          <a href="index.html" class="brand-wrap">
+      <div className="screen-overlay"></div>
+      <aside className="navbar-aside" id="offcanvas_aside">
+        <div className="aside-top">
+          <a href="index.html" className="brand-wrap">
             <img
               src="assets/imgs/theme/craftlogo.png"
-              class="logo"
+              className="logo"
               alt="CRFT Dashboard"
             ></img>
           </a>
         </div>
         <nav>
-          <ul class="menu-aside">
-            <li class="menu-item active">
-              <NavLink className="menu-link" exact to="/Dashboard">
+          <ul className="menu-aside">
+            <li className="menu-item active">
+              <NavLink className="menu-link" exact="true" to="/Dashboard">
                 <i className="icon material-icons md-home"></i>
-                <span class="text">Dashboard</span>
+                <span className="text">Dashboard</span>
               </NavLink>
             </li>
-            <li class="menu-item has-submenu">
-              <NavLink className="menu-link" exact to="/Users">
+            <li className="menu-item has-submenu">
+              <NavLink className="menu-link" exact="true" to="/Users">
                 <i className="icon material-icons md-shopping_bag"></i>
                 <span className="text">users</span>
               </NavLink>
             </li>
-            <li class="menu-item has-submenu">
-              <NavLink className="menu-link" exact to="/SkillProviderList">
+            <li className="menu-item has-submenu">
+              <NavLink
+                className="menu-link"
+                exact="true"
+                to="/SkillProviderList"
+              >
                 <i className="icon material-icons md-shopping_cart"></i>
                 <span className="text">Approve Skill Provider</span>
               </NavLink>
             </li>
-         
 
-            <li class="menu-item">
-              <NavLink className="menu-link" exact to="/History">
+            <li className="menu-item">
+              <NavLink className="menu-link" exact="true" to="/History">
                 {" "}
-                <i class="icon material-icons md-comment"></i>
-                <span class="text">History</span>
+                <i className="icon material-icons md-comment"></i>
+                <span className="text">History</span>
               </NavLink>
             </li>
           </ul>
           <hr />
-          <ul class="menu-aside">
-            <li class="menu-item has-submenu">
-              <NavLink class="menu-link" exact to="/">
+          <ul className="menu-aside">
+            <li className="menu-item has-submenu">
+              <NavLink className="menu-link" exact to="/">
                 <i className="material-icons md-exit_to_app"></i>
                 <span className="text">Logout</span>
               </NavLink>
@@ -60,52 +81,52 @@ function userProfile() {
           <br />
         </nav>
       </aside>
-      <main class="main-wrap">
-        <header class="main-header navbar">
-          <div class="col-search">
-            <form class="searchform">
-              <div class="input-group">
+      <main className="main-wrap">
+        <header className="main-header navbar">
+          <div className="col-search">
+            <form className="searchform">
+              <div className="input-group">
                 <input
                   list="search_terms"
                   type="text"
-                  class="form-control"
+                  className="form-control"
                   placeholder="Search term"
                 ></input>
-                <button class="btn btn-light bg" type="button">
+                <button className="btn btn-light bg" type="button">
                   {" "}
-                  <i class="material-icons md-search"></i>
+                  <i className="material-icons md-search"></i>
                 </button>
               </div>
               <datalist id="search_terms"></datalist>
             </form>
           </div>
-          <div class="col-nav">
+          <div className="col-nav">
             <button
-              class="btn btn-icon btn-mobile me-auto"
+              className="btn btn-icon btn-mobile me-auto"
               data-trigger="#offcanvas_aside"
             >
-              <i class="material-icons md-apps"></i>
+              <i className="material-icons md-apps"></i>
             </button>
-            <ul class="nav">
-              <li class="dropdown nav-item">
+            <ul className="nav">
+              <li className="dropdown nav-item">
                 <Link
-                  class="dropdown-toggle"
+                  className="dropdown-toggle"
                   data-bs-toggle="dropdown"
                   to="#"
                   id="dropdownAccount"
                   aria-expanded="false"
                 >
                   <img
-                    class="img-xs rounded-circle"
+                    className="img-xs rounded-circle"
                     src="assets/imgs/people/avatar2.jpg"
                     alt="User"
                   ></img>
                 </Link>
                 <div
-                  class="dropdown-menu dropdown-menu-end"
+                  className="dropdown-menu dropdown-menu-end"
                   aria-labelledby="dropdownAccount"
                 >
-                  <div class="dropdown-divider"></div>
+                  <div className="dropdown-divider"></div>
                   <Link className="dropdown-item text-danger" to="#">
                     <i className="material-icons md-exit_to_app"></i>Logout
                   </Link>
@@ -114,8 +135,78 @@ function userProfile() {
             </ul>
           </div>
         </header>
-        <footer class="main-footer font-xs">
-          <div class="row pb-30 pt-15"></div>
+        <section className="content-main">
+          <div className="card mb-4">
+            {/* <div
+              className="card-header bg-primary"
+              style={{ height: "150px" }}
+            ></div> */}
+            <div className="card-body">
+              <div className="row">
+                <div
+                  className="col-xl col-lg flex-grow-0"
+                  // style={{flex-basis:'230px'}}
+                >
+                  <div
+                    className="img-thumbnail shadow w-100 bg-white position-relative text-center"
+                    // style="height:190px; width:200px; margin-top:-120px"
+                  >
+                    <img
+                      src="assets/imgs/brands/brand-3.jpg"
+                      className="center-xy img-fluid"
+                      alt="Logo Brand"
+                    ></img>
+                  </div>
+                </div>
+                <div>
+                  <Avatar
+                    googleId="118096717852922241760"
+                    size="100"
+                    round={true}
+                  />
+                </div>
+                <div className="col-xl col-lg">
+                  <h3>{data.firstname}</h3>
+                  <p>{data.id}</p>
+                </div>
+                <div className="col-xl-4 text-md-end">
+                  <select className="form-select w-auto d-inline-block">
+                    <option>Actions</option>
+                    <option>Delete User</option>
+                    <option>Block User</option>
+                  </select>
+                </div>
+              </div>
+              <hr className="my-4"></hr>
+              <div className="row g-4">
+                <div className="col-sm-6 col-lg-4 col-xl-3">
+                  <h6>Contacts</h6>
+                  <p>
+                    <br />
+                    Email: {data.email}<br />
+                    phone: {data.phone}
+                  </p>
+                </div>
+                <div className="col-sm-6 col-lg-4 col-xl-3">
+                  <h6>Detail</h6>
+                  <p>
+                    <br />
+                    Description:
+                  </p>
+                </div>
+                <div className="col-sm-6 col-xl-4 text-xl-end"></div>
+              </div>
+            </div>
+            <div class="card mb-4">
+              <header class="card-header">
+                <h4 class="card-title">User History</h4>
+              </header>
+              <UserHistoryCard />
+            </div>
+          </div>
+        </section>
+        <footer className="main-footer font-xs">
+          <div className="row pb-30 pt-15"></div>
         </footer>{" "}
       </main>
       <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
@@ -127,4 +218,4 @@ function userProfile() {
     </div>
   );
 }
-export default userProfile;
+export default UserProfile;
