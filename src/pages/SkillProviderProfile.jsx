@@ -1,10 +1,118 @@
 import React from "react";
 //import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { NavLink } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
+import { useState, useEffect } from "react";
 import Avatar from "react-avatar";
+import axios from "axios";
 import SkillProviderHistoryCard from "../SKillProviderHistoryCard";
-function SkillProviderProfile() {
+import env from "./env";
+function SkillProviderProfile(props) {
+  const http = "http://" + env.IP + ":4000/";
+  let history = useNavigate();
+  const location = useLocation();
+  console.log(location.state);
+  const [data, setData] = useState({});
+  const [selectedOption, setSelectedOption] = useState("");
+
+  const id = location.state;
+  const Cid = id.currentId;
+  const [filteredData, setFilteredData] = useState([]);
+  function handleChange(event) {
+    setSelectedOption(event.target.value);
+    if (event.target.value === "block") {
+      userStatusBlock();
+    } else if (event.target.value === "delete") {
+      userStatusDelete();
+    } else if (event.target.value === "verified") {
+      userStatusVerify();
+    }
+    else if(event.target.value=="unblock")
+    {
+      userStatusUnBlock();
+
+    }
+
+  }
+  const userStatusUnBlock = () => {
+    axios
+      .put(http + "userstatus", {
+        userstatus: "pending",
+        email: data.email,
+      })
+
+      .then((response) => {
+        //const reader = response.data;
+        alert("User unblocked successfully");
+        console.log(response);
+      })
+      .catch((error) => console.log(error.response.data.message));
+  };
+  const userStatusVerify = () => {
+    axios
+      .put(http + "userstatus", {
+        userstatus: "verified",
+        email: data.email,
+      })
+
+      .then((response) => {
+        //const reader = response.data;
+        alert("User verified successfully");
+        console.log(response);
+      })
+      .catch((error) => console.log(error.response.data.message));
+  };
+  const userStatusDelete = () => {
+    let info = http + "deleteuser/" + Cid;
+    // try {
+    axios
+      .delete(info)
+      .then((res) => {
+        alert("User Deleted successfully");
+        console.log("User deleted sexyfully");
+
+        history("/SkillProviderList");
+      })
+      .catch((error) => {
+        console.log("error while deleting a user account", error);
+      });
+    // } catch (response) {
+    //   console.log(response.data.message);
+    // }
+  };
+  const userStatusBlock = () => {
+    axios
+      .put(http + "userstatus", {
+        userstatus: "block",
+        email: data.email,
+      })
+
+      .then((response) => {
+        //const reader = response.data;
+        alert("User blocked successfully");
+        console.log(response);
+      })
+      .catch((error) => console.log(error.response.data.message));
+  };
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch(http + `user/${Cid}`);
+      const data = await response.json();
+      setData(data);
+    }
+    fetchData();
+  }, [Cid]);
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch(http + `getcontract`);
+      const data = await response.json();
+
+      setFilteredData(data.filter((item) => item.userid === id.currentId));
+    }
+    fetchData();
+  }, [Cid]);
+  console.log(filteredData);
+
   return (
     <div>
       <div className="screen-overlay"></div>
@@ -146,15 +254,21 @@ function SkillProviderProfile() {
                   />
                 </div>
                 <div className="col-xl col-lg">
-                  <h3>Shahswar</h3>
+                  <h3>{data.firstname}</h3>
                   <p>Skill Provider</p>
                 </div>
                 <div className="col-xl-4 text-md-end">
-                  <select className="form-select w-auto d-inline-block">
+                  <select
+                    className="form-select w-auto d-inline-block
+                  "
+                    value={selectedOption}
+                    onChange={handleChange}
+                  >
                     <option>Actions</option>
-                    <option>Delete User</option>
-                    <option>Block User</option>
-                    <option>Verify User</option>
+                    <option value="delete">Delete User</option>
+                    <option value="block">Block User</option>
+                    <option value="verified">Verify User</option>
+                    <option value="unblock">Unblock User</option>
                   </select>
                 </div>
               </div>
@@ -164,8 +278,9 @@ function SkillProviderProfile() {
                   <h6>Contacts</h6>
                   <p>
                     <br />
-                    Email: info@example.com <br />
-                    phone: 03000000
+                    Email: {data.email}
+                    <br />
+                    phone: {data.phone}
                   </p>
                 </div>
                 <div className="col-sm-6 col-lg-4 col-xl-3">
@@ -174,7 +289,7 @@ function SkillProviderProfile() {
                     <br />
                     Description:
                     <br />
-                    Skill:
+                    Skill: {data.skill}
                   </p>
                 </div>
                 <div className="col-sm-6 col-xl-4 text-xl-end"></div>
@@ -184,7 +299,25 @@ function SkillProviderProfile() {
               <header class="card-header">
                 <h4 class="card-title">User History</h4>
               </header>
-              <SkillProviderHistoryCard/>
+
+              {filteredData.map((item) => (
+                <div key={item.id}>
+                  <SkillProviderHistoryCard
+                    name={item.firstname}
+                    id={item._id}
+                    email={item.email}
+                    createdby={item.createdby}
+                    category={item.category}
+                    date={item.jobdate}
+                    budget={item.budget}
+                    location={item.location}
+                    user={item.createdby}
+                    description={item.description}
+                    title={item.title}
+                    
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </section>

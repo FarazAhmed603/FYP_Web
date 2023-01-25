@@ -1,25 +1,104 @@
 import React from "react";
 // import { Navigate } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { NavLink, useLocation } from "react-router-dom";
+import { NavLink, useLocation, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
-
+import axios from "axios";
 import Avatar from "react-avatar";
 import UserHistoryCard from "./UserHistoryCard";
+import { useAlert } from "react-alert";
+import { AlertProvider } from "react-alert";
+import env from "./env";
+import UserHistoryHeader from "./UserHistoryHeader";
 function UserProfile(props) {
+  const [selectedOption, setSelectedOption] = useState("");
   const location = useLocation();
-  console.log(location.state);
+  const http = "http://" + env.IP + ":4000/";
+  //console.log(location.state);
   const [data, setData] = useState({});
-  const id= location.state;
+  let isAllowed = true;
+  const id = location.state;
+  const [filteredData, setFilteredData] = useState([]);
+
+  let history = useNavigate();
+  function handleChange(event) {
+    setSelectedOption(event.target.value);
+    if (event.target.value === "block") {
+      userStatusBlock();
+    } else if (event.target.value === "delete") {
+      userStatusDelete();
+    } else if (event.target.value == "unblock") {
+      userStatusUnBlock();
+    }
+  }
+  const userStatusUnBlock = () => {
+    axios
+      .put(http + "userstatus", {
+        userstatus: "pending",
+        email: data.email,
+      })
+
+      .then((response) => {
+        //const reader = response.data;
+        alert("User unblocked successfully");
+        console.log(response);
+      })
+      .catch((error) => console.log(error.response.data.message));
+  };
+
+  const userStatusDelete = () => {
+    console.log(id.currentId);
+
+    let info = http + "deleteuser/" + id.currentId;
+    // try {
+    axios
+      .delete(info)
+      .then((res) => {
+        alert("User Deleted successfully");
+        console.log("User deleted sexyfully");
+
+        history("/users");
+      })
+      .catch((error) => {
+        console.log("error while deleting a user account", error);
+      });
+    // } catch (response) {
+    //   console.log(response.data.message);
+    // }
+  };
+
+  const userStatusBlock = () => {
+    axios
+      .put(http + "userstatus", {
+        userstatus: "block",
+        email: data.email,
+      })
+
+      .then((response) => {
+        //const reader = response.data;
+        alert("User Blocked successfully");
+        console.log(response);
+      })
+      .catch((error) => console.log(error.response.data.message));
+  };
+  async function fetchData() {
+    const response = await fetch(http + `user/${id.currentId}`);
+    const data = await response.json();
+    setData(data);
+  }
+  useEffect(() => {
+    fetchData();
+  }, [id]);
   useEffect(() => {
     async function fetchData() {
-        const response = await fetch(`http://192.168.10.5:4000/user/${id.currentId}`);
-        const data = await response.json();
-        setData(data);
+      const response = await fetch(http + `getcontract`);
+      const data = await response.json();
+
+      setFilteredData(data.filter((item) => item.userid === id.currentId));
     }
     fetchData();
-}, );
- 
+  }, [id.currentId]);
+  // console.log(filteredData);
 
   return (
     <div>
@@ -170,10 +249,15 @@ function UserProfile(props) {
                   <p>{data.id}</p>
                 </div>
                 <div className="col-xl-4 text-md-end">
-                  <select className="form-select w-auto d-inline-block">
+                  <select
+                    className="form-select w-auto d-inline-block"
+                    value={selectedOption}
+                    onChange={handleChange}
+                  >
                     <option>Actions</option>
-                    <option>Delete User</option>
-                    <option>Block User</option>
+                    <option value="delete">Delete User</option>
+                    <option value="block">Block User</option>
+                    <option value="unblock">Unblock User</option>
                   </select>
                 </div>
               </div>
@@ -183,7 +267,8 @@ function UserProfile(props) {
                   <h6>Contacts</h6>
                   <p>
                     <br />
-                    Email: {data.email}<br />
+                    Email: {data.email}
+                    <br />
                     phone: {data.phone}
                   </p>
                 </div>
@@ -201,7 +286,27 @@ function UserProfile(props) {
               <header class="card-header">
                 <h4 class="card-title">User History</h4>
               </header>
-              <UserHistoryCard />
+              <UserHistoryHeader />
+              <div>
+                {filteredData.map((item) => (
+                  <div key={item.id}>
+                    <UserHistoryCard
+                      name={item.firstname}
+                      id={item._id}
+                      email={item.email}
+                      createdby={item.createdby}
+                      category={item.category}
+                      date={item.jobdate}
+                      budget={item.budget}
+                      location={item.location}
+                      user={item.createdby}
+                      description={item.description}
+                      title={item.title}
+                      worktype={item.worktype}
+                    />
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </section>

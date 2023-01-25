@@ -1,27 +1,15 @@
 import React from "react";
 function Tableheader() {
   return (
-    <div className="table-responsive">
-      <table className="table table-hover">
-        <thead className="table-responsive table thead">
-          <tr>
-            <th className="align-middle" scope="col">
-              Users
-            </th>
-            <th className="align-middle" scope="col">
-              Email
-            </th>
-            <th className="align-middle" scope="col">
-              Status
-            </th>
-            <th className="align-middle" scope="col">
-              Registered
-            </th>
-            <th className="text-end"> Action </th>
-          </tr>
-        </thead>
-      </table>
-    </div>
+    <table className="table">
+      <tr class="table-header-row">
+        <th>Users</th>
+        <th>Email</th>
+        <th>Status</th>
+        <th>Registered</th>
+        <th className="text-end"> Action </th>
+      </tr>
+    </table>
   );
 }
 export default Tableheader;

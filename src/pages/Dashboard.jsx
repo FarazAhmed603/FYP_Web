@@ -3,6 +3,9 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { useNavigate } from "react-router-dom";
 import LatestContractsCard from "../LatestContractCard";
+import { useEffect, useState } from "react";
+import env from "./env";
+import Contractheader from "./contractsHeader";
 
 import { NavLink } from "react-router-dom";
 function Dashboard({ authorized }) {
@@ -10,11 +13,20 @@ function Dashboard({ authorized }) {
   // if (!authorized) {
   //   return <Navigate to="/" replace />;
   // }
-
+  const http = "http://" + env.IP + ":4000/";
   const handleLogout = () => {
     localStorage.clear();
     return history("/");
   };
+  const [data, setData] = useState([]);
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch(http + "getcontract");
+      const data = await response.json();
+      setData(data);
+    }
+    fetchData();
+  }, []);
   return (
     <div>
       <div class="screen-overlay"></div>
@@ -61,7 +73,6 @@ function Dashboard({ authorized }) {
           <ul class="menu-aside">
             <li class="menu-item has-submenu">
               <button
-                class="menu-link"
                 onClick={() => {
                   handleLogout();
                 }}
@@ -146,7 +157,26 @@ function Dashboard({ authorized }) {
                 </div>
               </div>
             </header>
-            <LatestContractsCard/>
+            <Contractheader />
+            <div>
+              {data.map((item) => (
+                <div key={item.id}>
+                  <LatestContractsCard
+                    name={item.firstname}
+                    id={item._id}
+                    email={item.email}
+                    createdby={item.createdby}
+                    category={item.category}
+                    date={item.jobdate}
+                    budget={item.budget}
+                    location={item.location}
+                    user={item.createdby}
+                    title={item.title}
+                    description={item.description}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </section>
         <footer class="main-footer font-xs">

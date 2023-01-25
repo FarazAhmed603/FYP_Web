@@ -1,10 +1,34 @@
 import React from "react";
 import { NavLink } from "react-router-dom";
 import { Link } from "react-router-dom";
-import { useNavigate } from "react-router-dom";
-// import { Navigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import SkillProviderCard from "./SkillProviderCard";
+import env from "./env";
+
 function SkillProviderList() {
-  let history = useNavigate();
+  const http = "http://" + env.IP + ":4000/";
+
+  const [filteredData, setFilteredData] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch(http + `users`);
+      const data = await response.json();
+
+      setFilteredData(
+        data.filter(
+          (item) =>
+            Array.isArray(item.skill) &&
+            item.skill.length > 0 &&
+            item.userstatus === "pending"
+        )
+      );
+    }
+    fetchData();
+  }, []);
+
+  console.log(filteredData);
+
   return (
     <div>
       <div className="screen-overlay"></div>
@@ -108,7 +132,7 @@ function SkillProviderList() {
         </header>
         <section className="content-main">
           <div className="content-header">
-            <h2 className="content-title">Users list</h2>
+            <h2 className="content-title">Skill Provider list</h2>
           </div>
           <div className="card mb-4">
             <header className="card-header">
@@ -137,54 +161,21 @@ function SkillProviderList() {
                 </div>
               </div>
             </header>
-            <div className="card-body">
-              <div className="table-responsive">
-                <table className="table table-hover">
-                  <thead>
-                    <tr>
-                      <th>Users</th>
-                      <th>Email</th>
-                      <th>Status</th>
-                      <th>Registered</th>
-                      <th className="text-end"> Action </th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    <tr>
-                      <td width="40%">
-                        <div className="left">
-                          <img
-                            src="assets/imgs/people/avatar1.jpg"
-                            className="img-sm img-avatar"
-                            alt="Userpic"
-                          ></img>
-                        </div>
-                        <div className="info pl-3">
-                          <h6 className="mb-0 title">Shahswar</h6>
-                          <small className="text-muted">User ID: #439</small>
-                        </div>
-                      </td>
-                      <td>Shahswar@gmail.com</td>
-                      <td>
-                        <span className="badge rounded-pill alert-success">
-                          Active
-                        </span>
-                      </td>
-                      <td>08.07.2020</td>
-                      <td className="text-end">
-                        <button
-                          className="btn btn-sm btn-brand rounded font-sm mt-15"
-                          onClick={() => {
-                            history("/SkillProviderProfile");
-                          }}
-                        >
-                          View details
-                        </button>
-                      </td>
-                    </tr>
-                  </tbody>
-                </table>
-              </div>
+            <div>
+              {filteredData.map((item) => (
+                <div key={item._id}>
+                  <SkillProviderCard
+                    name={item.firstname}
+                    id={item._id}
+                    email={item.email}
+                    createdby={item.createdby}
+                    category={item.category}
+                    date={item.jobdate}
+                    skill={item.skill}
+                    status={item.userstatus}
+                  />
+                </div>
+              ))}
             </div>
           </div>
         </section>

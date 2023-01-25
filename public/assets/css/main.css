@@ -223,6 +223,29 @@ input:focus::-moz-placeholder {
   background-size: cover;
 }
 
+table {
+  display: table;
+  table-layout: fixed;
+  width: auto;
+  border-collapse: separate;
+}
+
+.table-header-row {
+  display: table-row;
+  padding: 10px;
+  max-width: 5px;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  white-space: normal;
+  border-collapse: separate;
+}
+
+.table-header-row td,
+.table-header-row th {
+  height: 50px;
+  text-align: left;
+}
+
 .position-relative {
   position: relative;
 }
@@ -4379,6 +4402,9 @@ body.dark .dropdown-menu .dropdown-item.text-danger {
     display: block;
     width: 100%;
     text-align: center;
+    max-width: 200px;
+    white-space: normal;
+    word-wrap: break-word;
   }
   .table-responsive table td::before {
     content: attr(data-title) " ";
@@ -4393,6 +4419,9 @@ body.dark .dropdown-menu .dropdown-item.text-danger {
     text-align: center;
     position: relative;
     background-color: #30b383;
+    max-width: 200px;
+    white-space: normal;
+    word-wrap: break-word;
     /* top: -10px;
     left: 10px; */
   }

@@ -5,28 +5,24 @@ import UsersCard from "./UsersCard";
 import { useState, useEffect } from "react";
 import axios from "axios";
 import Tableheader from "./Tableheader";
+import env from "./env";
 function Users() {
   // const [data, setData] = useState([]);
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
   const [search, setSearch] = useState("");
-
+  const http = "http://" + env.IP + ":4000/";
 
   // 63b0066ddd99fd4bb1a14859
   useEffect(() => {
-    
-  
-    axios
-      .get("http://192.168.10.5:4000/users")
-      .then((response) => {
-        setFilteredDataSource(response.data);
-        setMasterDataSource(response.data);
-      })
-      // .catch((error) => console.log(error));
+    axios.get(http + "users").then((response) => {
+      setFilteredDataSource(response.data);
+      setMasterDataSource(response.data);
+    });
+    // .catch((error) => console.log(error));
   }, []);
- 
 
-  console.log(filteredDataSource);
+  // console.log(filteredDataSource);
 
   const searchFilterFunction = (text) => {
     // Check if searched text is not blank
@@ -182,7 +178,7 @@ function Users() {
                 </div>
               </div>
             </header>
-             <Tableheader/>
+            <Tableheader />
             <div>
               {filteredDataSource.map((item) => (
                 <div key={item.id}>
@@ -190,6 +186,7 @@ function Users() {
                     name={item.firstname}
                     id={item._id}
                     email={item.email}
+                    status={item.userstatus}
                   />
                   {/* <p>{item.name}</p> */}
                   {/* <p>{item.description}</p> */}

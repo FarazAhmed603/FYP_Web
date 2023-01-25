@@ -1,5 +1,5 @@
 import React from "react";
-function SkillProviderHistoryCard()
+function SkillProviderHistoryCard(props)
 {
     return(
         <div>
@@ -36,11 +36,11 @@ function SkillProviderHistoryCard()
                       <tbody>
                         <tr>
                           <td class="text-center"></td>
-                          <td>i want to have labor work</td>
+                          <td>{props.title}</td>
+                          <td>{props.category}</td>
                           <td>Labor</td>
-                          <td>Labor</td>
-                          <td>abcsefghijkdhhsjhdjshjdshjdhsjdhjshdjshd</td>
-                          <td>07 Oct, 2021</td>
+                          <td>{props.description}</td>
+                          <td>{props.date}</td>
                           {/* <td>
                             <span class="badge badge-pill badge-soft-success">
                               Paid
@@ -48,9 +48,9 @@ function SkillProviderHistoryCard()
                           </td> */}
                           <td>
                             {/* <i class="material-icons md-payment font-xxl text-muted mr-5"></i>{" "} */}
-                            5000
+                            {props.budget}
                           </td>
-                          <td>Lahore</td>
+                          <td>{props.location}</td>
                         </tr>
                       </tbody>
                     </table>
