@@ -1,4 +1,4 @@
 const ENV = {
-  IP: "192.168.10.6",
+  IP: "192.168.43.37",
 };
 export default ENV;

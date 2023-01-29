@@ -21,7 +21,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "purgecss": "purgecss --css [path/to/css/file] --content [path/to/html/and/js/files] --output [path/to/output/directory]"
   },
   "eslintConfig": {
     "extends": [
@@ -40,5 +41,10 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "glob-all": "^3.3.1",
+    "purgecss": "^5.0.0",
+    "purgecss-webpack-plugin": "^5.0.0"
   }
 }
