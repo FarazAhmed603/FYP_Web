@@ -6,21 +6,45 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import Tableheader from "./Tableheader";
 import env from "./env";
+import Sidebar from "./sidebar";
 function Users() {
-  // const [data, setData] = useState([]);
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
   const [search, setSearch] = useState("");
   const http = "http://" + env.IP + ":4000/";
+  const [filteredData, setFilteredData] = useState([]);
+  const [selectedOption, setSelectedOption] = useState("");
 
-  // 63b0066ddd99fd4bb1a14859
   useEffect(() => {
-    axios.get(http + "users").then((response) => {
-      setFilteredDataSource(response.data);
-      setMasterDataSource(response.data);
-    });
-    // .catch((error) => console.log(error));
+    async function fetchData() {
+      const response = await fetch(http + `users`);
+      const data = await response.json();
+
+      setMasterDataSource(
+        data.filter((item) => item.email !== "carft.fus@gmail.com")
+      );
+
+      setFilteredDataSource(
+        data.filter((item) => item.email !== "carft.fus@gmail.com")
+      );
+    }
+    fetchData();
   }, []);
+  function handleChange(event) {
+    setSelectedOption(event.target.value);
+  }
+  const filter = filteredDataSource.filter((item) => {
+    if (selectedOption === "block") {
+      return item.userstatus === selectedOption;
+    } else if (selectedOption === "pending") {
+      return item.userstatus === selectedOption;
+    } else if (selectedOption === "verified") {
+      return item.userstatus === selectedOption;
+    } else {
+      return item;
+    }
+    
+  });
 
   // console.log(filteredDataSource);
 
@@ -50,101 +74,9 @@ function Users() {
   return (
     <div>
       <div className="screen-overlay"></div>
-      <aside className="navbar-aside" id="offcanvas_aside">
-        <div className="aside-top">
-          <a href="index.html" className="brand-wrap">
-            <img
-              src="assets/imgs/theme/craftlogo.png"
-              className="logo"
-              alt="CRFT Dashboard"
-            ></img>
-          </a>
-        </div>
-        <nav>
-          <ul className="menu-aside">
-            <li className="menu-item active">
-              <NavLink className="menu-link" exact to="/Dashboard">
-                <i className="icon material-icons md-home"></i>
-                <span className="text">Dashboard</span>
-              </NavLink>
-            </li>
-            <li className="menu-item has-submenu">
-              <NavLink className="menu-link" exact to="/Users">
-                <i className="icon material-icons md-shopping_bag"></i>
-                <span className="text">users</span>
-              </NavLink>
-            </li>
-            <li className="menu-item has-submenu">
-              <NavLink className="menu-link" exact to="/SkillProviderList">
-                <i className="icon material-icons md-shopping_cart"></i>
-                <span className="text">Approve Skill Provider</span>
-              </NavLink>
-            </li>
-
-            <li className="menu-item">
-              <NavLink className="menu-link" exact to="/History">
-                {" "}
-                <i className="icon material-icons md-comment"></i>
-                <span className="text">History</span>
-              </NavLink>
-            </li>
-          </ul>
-          <hr />
-          <ul className="menu-aside">
-            <li className="menu-item has-submenu">
-              <NavLink className="menu-link" exact to="/">
-                <i className="material-icons md-exit_to_app"></i>
-                <span className="text">Logout</span>
-              </NavLink>
-            </li>
-          </ul>
-
-          <br />
-          <br />
-        </nav>
-      </aside>
+      <Sidebar />
       <main className="main-wrap">
-        <header className="main-header navbar">
-          <div className="col-search">
-            <form className="searchform">
-              <datalist id="search_terms"></datalist>
-            </form>
-          </div>
-          <div className="col-nav">
-            <button
-              className="btn btn-icon btn-mobile me-auto"
-              data-trigger="#offcanvas_aside"
-            >
-              <i className="material-icons md-apps"></i>
-            </button>
-            <ul className="nav">
-              <li className="dropdown nav-item">
-                <Link
-                  className="dropdown-toggle"
-                  data-bs-toggle="dropdown"
-                  to="#"
-                  id="dropdownAccount"
-                  aria-expanded="false"
-                >
-                  <img
-                    className="img-xs rounded-circle"
-                    src="assets/imgs/people/avatar2.jpg"
-                    alt="User"
-                  ></img>
-                </Link>
-                <div
-                  className="dropdown-menu dropdown-menu-end"
-                  aria-labelledby="dropdownAccount"
-                >
-                  <div className="dropdown-divider"></div>
-                  <Link className="dropdown-item text-danger" to="#">
-                    <i className="material-icons md-exit_to_app"></i>Logout
-                  </Link>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </header>
+        <header className="main-header navbar"></header>
         <section className="content-main">
           <div className="content-header">
             <h2 className="content-title">Users list</h2>
@@ -162,11 +94,16 @@ function Users() {
                   />
                 </div>
                 <div className="col-lg-2 col-md-3 col-6">
-                  <select className="form-select">
+                  <select
+                    className="form-select"
+                    value={selectedOption}
+                    onChange={handleChange}
+                  >
                     <option>Status</option>
-                    <option>Active</option>
-                    <option>Disabled</option>
-                    <option>Show all</option>
+                    <option value="verified">verified</option>
+                    <option value="block">Blocked</option>
+                    <option value="pending">pending</option>
+                    <option value="all">Show all</option>
                   </select>
                 </div>
                 <div className="col-lg-2 col-md-3 col-6">
@@ -180,13 +117,14 @@ function Users() {
             </header>
             <Tableheader />
             <div>
-              {filteredDataSource.map((item) => (
+              {filter.map((item) => (
                 <div key={item.id}>
                   <UsersCard
                     name={item.firstname}
                     id={item._id}
                     email={item.email}
                     status={item.userstatus}
+                    description={item.description}
                   />
                   {/* <p>{item.name}</p> */}
                   {/* <p>{item.description}</p> */}
@@ -195,9 +133,6 @@ function Users() {
             </div>
           </div>
         </section>
-        <footer className="main-footer font-xs">
-          <div className="row pb-30 pt-15"></div>
-        </footer>
       </main>
       <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
       <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>

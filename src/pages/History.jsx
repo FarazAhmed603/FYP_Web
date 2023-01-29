@@ -1,118 +1,88 @@
 import React from "react";
-import { NavLink } from "react-router-dom";
-import { Link } from "react-router-dom";
+import Sidebar from "./sidebar";
+import env from "./env";
+import { useState, useEffect } from "react";
+import Tableheader from "./Tableheader";
+import SkillProviderCard from "./SkillProviderCard";
 function History() {
+  const http = "http://" + env.IP + ":4000/";
+
+  const [filteredData, setFilteredData] = useState([]);
+
+  useEffect(() => {
+    async function fetchData() {
+      const response = await fetch(http + `users`);
+      const data = await response.json();
+
+      setFilteredData(
+        data.filter(
+          (item) =>
+            Array.isArray(item.skill) &&
+            item.skill.length > 0 &&
+            item.userstatus === "verified"
+        )
+      );
+    }
+    fetchData();
+  }, []);
+
+  console.log(filteredData);
   return (
     <div>
       <div class="screen-overlay"></div>
-      <aside class="navbar-aside" id="offcanvas_aside">
-        <div class="aside-top">
-          <a href="index.html" class="brand-wrap">
-            <img
-              src="assets/imgs/theme/craftlogo.png"
-              class="logo"
-              alt="CRFT Dashboard"
-            ></img>
-          </a>
-        </div>
-        <nav>
-          <ul class="menu-aside">
-            <li class="menu-item active">
-              <NavLink className="menu-link" exact to="/Dashboard">
-                <i className="icon material-icons md-home"></i>
-                <span class="text">Dashboard</span>
-              </NavLink>
-            </li>
-            <li class="menu-item has-submenu">
-              <NavLink className="menu-link" exact to="/Users">
-                <i className="icon material-icons md-shopping_bag"></i>
-                <span className="text">users</span>
-              </NavLink>
-            </li>
-            <li class="menu-item has-submenu">
-              <NavLink className="menu-link" exact to="/SkillProviderList">
-                <i className="icon material-icons md-shopping_cart"></i>
-                <span className="text">Approve Skill Provider</span>
-              </NavLink>
-            </li>
-            {/* <li class="menu-item has-submenu">
-              <a class="menu-link" href="page-sellers-cards.html">
-                {" "}
-                <i class="icon material-icons md-store"></i>
-                <span class="text">Sellers</span>
-              </a>
-              <div class="submenu">
-                <a href="page-sellers-cards.html">Sellers cards</a>
-                <a href="page-sellers-list.html">Sellers list</a>
-                <a href="page-seller-detail.html">Seller profile</a>
-              </div>
-            </li> */}
-
-            <li class="menu-item">
-              <NavLink className="menu-link" exact to="/History">
-                {" "}
-                <i class="icon material-icons md-comment"></i>
-                <span class="text">History</span>
-              </NavLink>
-            </li>
-          </ul>
-          <hr />
-          <ul class="menu-aside">
-            <li class="menu-item has-submenu">
-              <NavLink class="menu-link" exact to="/">
-                <i className="material-icons md-exit_to_app"></i>
-                <span className="text">Logout</span>
-              </NavLink>
-            </li>
-          </ul>
-
-          <br />
-          <br />
-        </nav>
-      </aside>
+      <Sidebar />
       <main class="main-wrap">
-        <header class="main-header navbar">
-          <div class="col-search">
-            <form class="searchform">
-            
-              <datalist id="search_terms"></datalist>
-            </form>
+        <header class="main-header navbar"></header>
+        <section className="content-main">
+          <div className="content-header">
+            <h2 className="content-title">Skill Provider list</h2>
           </div>
-          <div class="col-nav">
-            <button
-              class="btn btn-icon btn-mobile me-auto"
-              data-trigger="#offcanvas_aside"
-            >
-              <i class="material-icons md-apps"></i>
-            </button>
-            <ul class="nav">
-              <li class="dropdown nav-item">
-                <Link
-                  class="dropdown-toggle"
-                  data-bs-toggle="dropdown"
-                  to="#"
-                  id="dropdownAccount"
-                  aria-expanded="false"
-                >
-                  <img
-                    class="img-xs rounded-circle"
-                    src="assets/imgs/people/avatar2.jpg"
-                    alt="User"
-                  ></img>
-                </Link>
-                <div
-                  class="dropdown-menu dropdown-menu-end"
-                  aria-labelledby="dropdownAccount"
-                >
-                  <div class="dropdown-divider"></div>
-                  <Link className="dropdown-item text-danger" to="#">
-                    <i className="material-icons md-exit_to_app"></i>Logout
-                  </Link>
+          <div className="card mb-4">
+            <header className="card-header">
+              <div className="row gx-3">
+                <div className="col-lg-4 col-md-6 me-auto">
+                  <input
+                    type="text"
+                    placeholder="Search..."
+                    className="form-control"
+                  />
                 </div>
-              </li>
-            </ul>
+                <div className="col-lg-2 col-md-3 col-6">
+                  <select className="form-select">
+                    <option>Status</option>
+                    <option>Active</option>
+                    <option>Disabled</option>
+                    <option>Show all</option>
+                  </select>
+                </div>
+                <div className="col-lg-2 col-md-3 col-6">
+                  <select className="form-select">
+                    <option>Show 20</option>
+                    <option>Show 30</option>
+                    <option>Show 40</option>
+                  </select>
+                </div>
+              </div>
+            </header>
+            <Tableheader />
+            <div>
+              {filteredData.map((item) => (
+                <div key={item._id}>
+                  <SkillProviderCard
+                    name={item.firstname}
+                    id={item._id}
+                    email={item.email}
+                    createdby={item.createdby}
+                    category={item.category}
+                    date={item.jobdate}
+                    skill={item.skill}
+                    status={item.userstatus}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
-        </header>
+        </section>
       </main>
       <script src="assets/js/vendors/jquery-3.6.0.min.js"></script>
       <script src="assets/js/vendors/bootstrap.bundle.min.js"></script>

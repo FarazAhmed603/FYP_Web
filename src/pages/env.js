@@ -1,5 +1,4 @@
-
-const ENV={
-    IP:'192.168.10.11',
+const ENV = {
+  IP: "192.168.10.6",
 };
 export default ENV;

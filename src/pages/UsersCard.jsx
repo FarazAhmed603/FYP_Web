@@ -40,7 +40,7 @@ function UserCard(props) {
             <td>08.07.2020</td>
             <td className="text-end">
               <button
-                className="btn btn-sm btn-brand rounded font-sm mt-15"
+                className="btn btn-sm btn-users rounded font-sm mt-15"
                 onClick={() => {
                   handleClick();
                 }}

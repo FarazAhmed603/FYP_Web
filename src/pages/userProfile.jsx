@@ -10,6 +10,7 @@ import { useAlert } from "react-alert";
 import { AlertProvider } from "react-alert";
 import env from "./env";
 import UserHistoryHeader from "./UserHistoryHeader";
+import Sidebar from "./sidebar";
 function UserProfile(props) {
   const [selectedOption, setSelectedOption] = useState("");
   const location = useLocation();
@@ -43,7 +44,7 @@ function UserProfile(props) {
         alert("User unblocked successfully");
         console.log(response);
       })
-      .catch((error) => console.log(error.response.data.message));
+      .catch((error) => alert(error.response.data.message));
   };
 
   const userStatusDelete = () => {
@@ -59,9 +60,9 @@ function UserProfile(props) {
 
         history("/users");
       })
-      .catch((error) => {
-        console.log("error while deleting a user account", error);
-      });
+      .catch((error) => 
+      alert(error.response.data.message)
+      );
     // } catch (response) {
     //   console.log(response.data.message);
     // }
@@ -79,7 +80,7 @@ function UserProfile(props) {
         alert("User Blocked successfully");
         console.log(response);
       })
-      .catch((error) => console.log(error.response.data.message));
+      .catch((error) => alert(error.response.data.message));
   };
   async function fetchData() {
     const response = await fetch(http + `user/${id.currentId}`);
@@ -94,7 +95,7 @@ function UserProfile(props) {
       const response = await fetch(http + `getcontract`);
       const data = await response.json();
 
-      setFilteredData(data.filter((item) => item.userid === id.currentId));
+      setFilteredData(data.filter((item) => item.userid === id.currentId && item.createdby==="client"));
     }
     fetchData();
   }, [id.currentId]);
@@ -103,117 +104,9 @@ function UserProfile(props) {
   return (
     <div>
       <div className="screen-overlay"></div>
-      <aside className="navbar-aside" id="offcanvas_aside">
-        <div className="aside-top">
-          <a href="index.html" className="brand-wrap">
-            <img
-              src="assets/imgs/theme/craftlogo.png"
-              className="logo"
-              alt="CRFT Dashboard"
-            ></img>
-          </a>
-        </div>
-        <nav>
-          <ul className="menu-aside">
-            <li className="menu-item active">
-              <NavLink className="menu-link" exact="true" to="/Dashboard">
-                <i className="icon material-icons md-home"></i>
-                <span className="text">Dashboard</span>
-              </NavLink>
-            </li>
-            <li className="menu-item has-submenu">
-              <NavLink className="menu-link" exact="true" to="/Users">
-                <i className="icon material-icons md-shopping_bag"></i>
-                <span className="text">users</span>
-              </NavLink>
-            </li>
-            <li className="menu-item has-submenu">
-              <NavLink
-                className="menu-link"
-                exact="true"
-                to="/SkillProviderList"
-              >
-                <i className="icon material-icons md-shopping_cart"></i>
-                <span className="text">Approve Skill Provider</span>
-              </NavLink>
-            </li>
-
-            <li className="menu-item">
-              <NavLink className="menu-link" exact="true" to="/History">
-                {" "}
-                <i className="icon material-icons md-comment"></i>
-                <span className="text">History</span>
-              </NavLink>
-            </li>
-          </ul>
-          <hr />
-          <ul className="menu-aside">
-            <li className="menu-item has-submenu">
-              <NavLink className="menu-link" exact to="/">
-                <i className="material-icons md-exit_to_app"></i>
-                <span className="text">Logout</span>
-              </NavLink>
-            </li>
-          </ul>
-
-          <br />
-          <br />
-        </nav>
-      </aside>
+      <Sidebar />
       <main className="main-wrap">
-        <header className="main-header navbar">
-          <div className="col-search">
-            <form className="searchform">
-              <div className="input-group">
-                <input
-                  list="search_terms"
-                  type="text"
-                  className="form-control"
-                  placeholder="Search term"
-                ></input>
-                <button className="btn btn-light bg" type="button">
-                  {" "}
-                  <i className="material-icons md-search"></i>
-                </button>
-              </div>
-              <datalist id="search_terms"></datalist>
-            </form>
-          </div>
-          <div className="col-nav">
-            <button
-              className="btn btn-icon btn-mobile me-auto"
-              data-trigger="#offcanvas_aside"
-            >
-              <i className="material-icons md-apps"></i>
-            </button>
-            <ul className="nav">
-              <li className="dropdown nav-item">
-                <Link
-                  className="dropdown-toggle"
-                  data-bs-toggle="dropdown"
-                  to="#"
-                  id="dropdownAccount"
-                  aria-expanded="false"
-                >
-                  <img
-                    className="img-xs rounded-circle"
-                    src="assets/imgs/people/avatar2.jpg"
-                    alt="User"
-                  ></img>
-                </Link>
-                <div
-                  className="dropdown-menu dropdown-menu-end"
-                  aria-labelledby="dropdownAccount"
-                >
-                  <div className="dropdown-divider"></div>
-                  <Link className="dropdown-item text-danger" to="#">
-                    <i className="material-icons md-exit_to_app"></i>Logout
-                  </Link>
-                </div>
-              </li>
-            </ul>
-          </div>
-        </header>
+        <header className="main-header navbar"></header>
         <section className="content-main">
           <div className="card mb-4">
             {/* <div
@@ -269,14 +162,17 @@ function UserProfile(props) {
                     <br />
                     Email: {data.email}
                     <br />
-                    phone: {data.phone}
+                    phone: {data.phone}<br />
+                    Skill: {data.skill}
                   </p>
                 </div>
                 <div className="col-sm-6 col-lg-4 col-xl-3">
                   <h6>Detail</h6>
                   <p>
                     <br />
-                    Description:
+                    Description: {data.description}  <br />
+                    Location: {data.location} <br />
+                    Education: {data.education}
                   </p>
                 </div>
                 <div className="col-sm-6 col-xl-4 text-xl-end"></div>

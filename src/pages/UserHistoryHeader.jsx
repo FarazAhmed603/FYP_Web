@@ -10,6 +10,7 @@ function UserHistoryHeader() {
         <th>Job Date</th>
         <th>Budget</th>
         <th>Location</th>
+        <th>Actions</th>
       </tr>
     </table>
   );

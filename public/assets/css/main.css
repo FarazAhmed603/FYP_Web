@@ -635,11 +635,11 @@ b {
 }
 
 .menu-aside .menu-item {
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 }
 
 .menu-aside .menu-item .icon {
-  color: #adb5bd;
+  color: #74818f;
   margin-right: 10px;
   font-size: 24px;
 }
@@ -803,7 +803,7 @@ b {
   padding: 10px 40px;
   color: #ffffff;
   border: none;
-  background-color: #088178;
+  background-color: #030808;
   border-radius: 4px;
 }
 
@@ -814,7 +814,7 @@ b {
 }
 
 .btn.btn-primary:hover {
-  background-color: #046963;
+  background-color: #020213;
 }
 
 .btn.btn-secondary {
@@ -962,14 +962,14 @@ b {
   vertical-align: bottom;
 }
 
-.btn-brand {
-  background-color: #088178;
+.btn-users {
+  background-color: #031b1a;
   border: 0;
   color: #fff;
 }
 
-.btn-brand:hover {
-  background-color: #046963;
+.btn-users:hover {
+  background-color: #0c1616;
   color: #fff;
 }
 
@@ -3792,7 +3792,19 @@ body.offcanvas-active {
   margin-top: 5px;
   min-width: 120px;
 }
+.header img {
+  float: center;
+  width: 100%;
+  height: 150px;
+  background: transparent;
+  border-color: #f4f5f9;
+}
 
+.header h1 {
+  position: relative;
+  top: 18px;
+  left: 10px;
+}
 .main-header {
   padding-left: 3%;
   padding-right: 3%;
@@ -4008,7 +4020,7 @@ body.dark h6 {
 }
 
 body.dark .menu-aside .menu-item .icon {
-  color: rgba(173, 181, 189, 0.7);
+  color: rgba(246, 251, 255, 0.7);
 }
 
 body.dark .menu-aside .menu-item.active .icon {
@@ -4394,36 +4406,8 @@ body.dark .dropdown-menu .dropdown-item.text-danger {
   }
 }
 
-@media all and (max-width: 480px) {
-  .table-responsive table {
-    min-width: 100%;
-  }
-  .table-responsive table td {
-    display: block;
-    width: 100%;
-    text-align: center;
-    max-width: 200px;
-    white-space: normal;
-    word-wrap: break-word;
-  }
-  .table-responsive table td::before {
-    content: attr(data-title) " ";
-    float: left;
-    text-transform: capitalize;
-    margin-right: 150px;
-    font-weight: bold;
-  }
-  .table-responsive table thead {
-    display: none;
-    padding: 10px;
-    text-align: center;
-    position: relative;
-    background-color: #30b383;
-    max-width: 200px;
-    white-space: normal;
-    word-wrap: break-word;
-    /* top: -10px;
-    left: 10px; */
-  }
-}
+
+
+
+
 /*# sourceMappingURL=main.css.map */

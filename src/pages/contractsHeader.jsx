@@ -12,6 +12,8 @@ function Contractheader() {
         <th>Budget</th>
         <th>Payment Status</th>
         <th>Location</th>
+        <th>Action</th>
+        
         
       </tr>
     </table>
