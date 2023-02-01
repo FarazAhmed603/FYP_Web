@@ -14,7 +14,7 @@ import Sidebar from "./sidebar";
 function UserProfile(props) {
   const [selectedOption, setSelectedOption] = useState("");
   const location = useLocation();
-  const http = "http://" + env.IP + ":4000/";
+  const http = env.IP;
   //console.log(location.state);
   const [data, setData] = useState({});
   let isAllowed = true;
@@ -60,9 +60,7 @@ function UserProfile(props) {
 
         history("/users");
       })
-      .catch((error) => 
-      alert(error.response.data.message)
-      );
+      .catch((error) => alert(error.response.data.message));
     // } catch (response) {
     //   console.log(response.data.message);
     // }
@@ -95,7 +93,11 @@ function UserProfile(props) {
       const response = await fetch(http + `getcontract`);
       const data = await response.json();
 
-      setFilteredData(data.filter((item) => item.userid === id.currentId && item.createdby==="client"));
+      setFilteredData(
+        data.filter(
+          (item) => item.userid === id.currentId && item.createdby === "client"
+        )
+      );
     }
     fetchData();
   }, [id.currentId]);
@@ -162,7 +164,8 @@ function UserProfile(props) {
                     <br />
                     Email: {data.email}
                     <br />
-                    phone: {data.phone}<br />
+                    phone: {data.phone}
+                    <br />
                     Skill: {data.skill}
                   </p>
                 </div>
@@ -170,7 +173,7 @@ function UserProfile(props) {
                   <h6>Detail</h6>
                   <p>
                     <br />
-                    Description: {data.description}  <br />
+                    Description: {data.description} <br />
                     Location: {data.location} <br />
                     Education: {data.education}
                   </p>

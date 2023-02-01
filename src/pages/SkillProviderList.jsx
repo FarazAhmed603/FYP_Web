@@ -8,7 +8,7 @@ import Tableheader from "./Tableheader";
 import Sidebar from "./sidebar";
 
 function SkillProviderList() {
-  const http = "http://" + env.IP + ":4000/";
+  const http = env.IP;
 
   const [filteredData, setFilteredData] = useState([]);
 

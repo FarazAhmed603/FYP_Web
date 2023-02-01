@@ -10,7 +10,7 @@ import env from "./env";
 import UserHistoryHeader from "./UserHistoryHeader";
 import Sidebar from "./sidebar";
 function SkillProviderProfile(props) {
-  const http = "http://" + env.IP + ":4000/";
+  const http = env.IP;
   let history = useNavigate();
   const location = useLocation();
   console.log(location.state);

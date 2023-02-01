@@ -14,7 +14,7 @@ function LoginPage(setAuthorized) {
   const [email, setEmail] = useState("");
   const [error, setError] = useState("");
   const [password, setPassword] = useState("");
-  const http = "http://" + env.IP + ":4000/";
+  const http = env.IP;
 
   // const getEmail = localStorage.getItem("emailData");
   // const getPassword = localStorage.getItem("passwordData");

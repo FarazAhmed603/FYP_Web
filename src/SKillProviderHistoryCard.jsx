@@ -2,7 +2,7 @@ import React from "react";
 import axios from "axios";
 import env from "./pages/env";
 function SkillProviderHistoryCard(props) {
-  const http = "http://" + env.IP + ":4000/";
+  const http = env.IP;
   const handleClick = (event, props) => {
     console.log(props);
     const contractID = props;

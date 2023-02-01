@@ -3,7 +3,7 @@ import header from "./pages/contractsHeader";
 import env from "./pages/env";
 import axios from "axios";
 function LatestContractsCard(props) {
-  const http = "http://" + env.IP + ":4000/";
+  const http = env.IP;
   const handleClick = (event, props) => {
     console.log(props);
     const contractID = props;

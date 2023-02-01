@@ -13,8 +13,8 @@ function Dashboard() {
   // if (!authorized) {
   //   return <Navigate to="/" replace />;
   // }
-  const http = "http://" + env.IP + ":4000/";
-
+  const http = env.IP;
+  console.log(http);
   const [data, setData] = useState([]);
   useEffect(() => {
     async function fetchData() {

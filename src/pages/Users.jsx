@@ -11,7 +11,7 @@ function Users() {
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
   const [search, setSearch] = useState("");
-  const http = "http://" + env.IP + ":4000/";
+  const http = env.IP;
   const [filteredData, setFilteredData] = useState([]);
   const [selectedOption, setSelectedOption] = useState("");
 

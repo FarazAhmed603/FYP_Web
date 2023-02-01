@@ -5,7 +5,7 @@ import { useState, useEffect } from "react";
 import Tableheader from "./Tableheader";
 import SkillProviderCard from "./SkillProviderCard";
 function History() {
-  const http = "http://" + env.IP + ":4000/";
+  const http = env.IP;
 
   const [filteredData, setFilteredData] = useState([]);
 
