@@ -46,7 +46,6 @@ section {
   vertical-align: baseline;
 }
 
-
 aside,
 details,
 footer,
@@ -55,7 +54,6 @@ nav,
 section {
   display: block;
 }
-
 
 ul {
   list-style: none;
@@ -209,7 +207,6 @@ table .form-check {
   border-radius: 100%;
   border: 3px solid #fff;
 }
-
 
 .img-sm {
   -o-object-fit: cover;
@@ -376,7 +373,6 @@ button {
   background-color: #0c1616;
   color: #fff;
 }
-
 
 .btn:focus {
   outline: 0;
@@ -778,7 +774,7 @@ footer.main-footer {
   /* small tablet devices */
 }
 
-@media all and (max-width: 768px) {
+@media all and (max-width: 412px) {
   /* mobile devices */
   .navbar-aside {
     z-index: 900;

@@ -38,7 +38,7 @@ function LatestContractsCard(props) {
             <td>{props.date}</td>
             <td>RS {props.budget}</td>
             <td>
-              <span class="badge badge-pill badge-soft-success">Paid</span>
+              <span className="badge badge-pill badge-soft-success">Paid</span>
             </td>
             <td>
               {/* <i class="material-icons md-payment font-xxl text-muted mr-5"></i>{" "} */}

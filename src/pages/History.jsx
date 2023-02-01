@@ -29,10 +29,10 @@ function History() {
   console.log(filteredData);
   return (
     <div>
-      <div class="screen-overlay"></div>
+      <div className="screen-overlay"></div>
       <Sidebar />
-      <main class="main-wrap">
-        <header class="main-header navbar"></header>
+      <main className="main-wrap">
+        <header className="main-header navbar"></header>
         <section className="content-main">
           <div className="content-header">
             <h2 className="content-title">Skill Provider list</h2>
@@ -40,28 +40,21 @@ function History() {
           <div className="card mb-4">
             <header className="card-header">
               <div className="row gx-3">
-                <div className="col-lg-4 col-md-6 me-auto">
+                {/* <div className="col-lg-4 col-md-6 me-auto">
                   <input
                     type="text"
                     placeholder="Search..."
                     className="form-control"
                   />
-                </div>
-                <div className="col-lg-2 col-md-3 col-6">
+                </div> */}
+                {/* <div className="col-lg-2 col-md-3 col-6">
                   <select className="form-select">
                     <option>Status</option>
                     <option>Active</option>
                     <option>Disabled</option>
                     <option>Show all</option>
                   </select>
-                </div>
-                <div className="col-lg-2 col-md-3 col-6">
-                  <select className="form-select">
-                    <option>Show 20</option>
-                    <option>Show 30</option>
-                    <option>Show 40</option>
-                  </select>
-                </div>
+                </div> */}
               </div>
             </header>
             <Tableheader />
@@ -77,6 +70,7 @@ function History() {
                     date={item.jobdate}
                     skill={item.skill}
                     status={item.userstatus}
+                    number={item.phone}
                   />
                 </div>
               ))}

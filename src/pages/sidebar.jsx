@@ -19,38 +19,42 @@ function Sidebar() {
 
   return (
     <div>
-      <aside class="navbar-aside" id="offcanvas_aside">
-        <div class="aside-top">
-          <a href="index.html" class="brand-wrap">
+      <aside className="navbar-aside" id="offcanvas_aside">
+        <div className="aside-top">
+          <a href="index.html" className="brand-wrap">
             <img
               src="assets/imgs/theme/craftlogo.png"
-              class="logo"
+              className="logo"
               alt="CRFT Dashboard"
             ></img>
           </a>
         </div>
         <nav>
-          <ul class="menu-aside">
-            <li class="menu-item ">
-              <NavLink className="menu-link" exact to="/Dashboard">
+          <ul className="menu-aside">
+            <li className="menu-item ">
+              <NavLink className="menu-link" exact="true" to="/Dashboard">
                 <i className="icon material-icons md-home"></i>
-                <span class="text">Dashboard</span>
+                <span className="text">Dashboard</span>
               </NavLink>
             </li>
-            <li class="menu-item ">
-              <NavLink className="menu-link" exact to="/Users">
+            <li className="menu-item ">
+              <NavLink className="menu-link" exact="true" to="/Users">
                 <i className="icon material-icons md-account_circle"></i>
                 <span className="text">users</span>
               </NavLink>
             </li>
-            <li class="menu-item">
-              <NavLink className="menu-link" exact to="/History">
-                <i class="icon material-icons md-account_circle"></i>
-                <span class="text">Skill Providers</span>
+            <li className="menu-item">
+              <NavLink className="menu-link" exact="true" to="/History">
+                <i className="icon material-icons md-account_circle"></i>
+                <span className="text">Skill Providers</span>
               </NavLink>
             </li>
-            <li class="menu-item ">
-              <NavLink className="menu-link" exact to="/SkillProviderList">
+            <li className="menu-item ">
+              <NavLink
+                className="menu-link"
+                exact="true"
+                to="/SkillProviderList"
+              >
                 <i className="icon material-icons md-check_box"></i>
                 <span className="text">Verify Skill Provider</span>
               </NavLink>
@@ -59,7 +63,7 @@ function Sidebar() {
           <hr />
           <ul className="menu-aside">
             <li onClick={handleLogout} className="menu-item">
-              <NavLink className="menu-link" exact to="/">
+              <NavLink className="menu-link" exact="true" to="/">
                 <i className="material-icons md-exit_to_app"></i>
                 <span className="text">Logout</span>
               </NavLink>

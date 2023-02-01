@@ -195,14 +195,14 @@ function SkillProviderProfile(props) {
                 <div className="col-sm-6 col-xl-4 text-xl-end"></div>
               </div>
             </div>
-            <div class="card mb-4">
-              <header class="card-header">
-                <h4 class="card-title">User History</h4>
+            <div className="card mb-4">
+              <header className="card-header">
+                <h4 className="card-title">User History</h4>
               </header>
               <UserHistoryHeader />
 
               {filteredData.map((item) => (
-                <div key={item.id}>
+                <div key={item._id}>
                   <SkillProviderHistoryCard
                     name={item.firstname}
                     id={item._id}

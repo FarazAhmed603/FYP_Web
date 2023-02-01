@@ -26,32 +26,32 @@ function Dashboard() {
   }, []);
   return (
     <div>
-      <div class="screen-overlay"></div>
+      <div className="screen-overlay"></div>
       <Sidebar />
-      <main class="main-wrap">
-        <header class="main-header"></header>
-        <section class="content-main">
+      <main className="main-wrap">
+        <header className="main-header"></header>
+        <section className="content-main">
           <div>
-            <h2 class="content-title card-title">Dashboard </h2>
+            <h2 className="content-title card-title">Dashboard </h2>
           </div>
-          <div class="card mb-4">
-            <header class="card-header">
-              <h4 class="card-title">Latest Contracts</h4>
-              <div class="row align-items-center">
-                <div class="col-md-3 col-12 me-auto mb-md-0 mb-3"></div>
-                <div class="col-md-2 col-6">
+          <div className="card mb-4">
+            <header className="card-header">
+              <h4 className="card-title">All Contracts History</h4>
+              <div className="row align-items-center">
+                <div className="col-md-3 col-12 me-auto mb-md-0 mb-3"></div>
+                {/* <div className="col-md-2 col-6">
                   <input
                     type="date"
                     value="02.05.2021"
-                    class="form-control"
+                    className="form-control"
                   ></input>
-                </div>
-                <div class="col-md-2 col-6">
-                  <div class="custom_select">
-                    <select class="form-select select-nice">
-                      <option selected>Status</option>
-                      <option>All</option>
-                      <option>Paid</option>
+                </div> */}
+                <div className="col-md-2 col-6">
+                  <div className="custom_select">
+                    <select className="form-select select-nice">
+                      <option>Status</option>
+                      <option value="all">All</option>
+                      <option value="paid">Paid</option>
                     </select>
                   </div>
                 </div>
@@ -60,7 +60,7 @@ function Dashboard() {
             <Contractheader />
             <div>
               {data.map((item) => (
-                <div key={item.id}>
+                <div key={item._id}>
                   <LatestContractsCard
                     name={item.firstname}
                     id={item._id}

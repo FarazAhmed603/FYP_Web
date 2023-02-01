@@ -21,11 +21,11 @@ function Users() {
       const data = await response.json();
 
       setMasterDataSource(
-        data.filter((item) => item.email !== "carft.fus@gmail.com")
+        data.filter((item) => item.email !== "craft.fus@gmail.com")
       );
 
       setFilteredDataSource(
-        data.filter((item) => item.email !== "carft.fus@gmail.com")
+        data.filter((item) => item.email !== "craft.fus@gmail.com")
       );
     }
     fetchData();
@@ -43,7 +43,6 @@ function Users() {
     } else {
       return item;
     }
-    
   });
 
   // console.log(filteredDataSource);
@@ -106,25 +105,19 @@ function Users() {
                     <option value="all">Show all</option>
                   </select>
                 </div>
-                <div className="col-lg-2 col-md-3 col-6">
-                  <select className="form-select">
-                    <option>Show 20</option>
-                    <option>Show 30</option>
-                    <option>Show 40</option>
-                  </select>
-                </div>
               </div>
             </header>
             <Tableheader />
             <div>
               {filter.map((item) => (
-                <div key={item.id}>
+                <div key={item._id}>
                   <UsersCard
                     name={item.firstname}
                     id={item._id}
                     email={item.email}
                     status={item.userstatus}
                     description={item.description}
+                    number={item.phone}
                   />
                   {/* <p>{item.name}</p> */}
                   {/* <p>{item.description}</p> */}

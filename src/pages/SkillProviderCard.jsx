@@ -37,7 +37,7 @@ function SkillProviderCard(props) {
                 {props.status}
               </span>
             </td>
-            <td>{props.skill}</td>
+            <td>{props.number}</td>
             <td className="text-end">
               <button
                 className="btn btn-sm btn-users rounded font-sm mt-15"

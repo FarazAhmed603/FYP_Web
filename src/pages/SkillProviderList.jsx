@@ -44,28 +44,21 @@ function SkillProviderList() {
           <div className="card mb-4">
             <header className="card-header">
               <div className="row gx-3">
-                <div className="col-lg-4 col-md-6 me-auto">
+                {/* <div className="col-lg-4 col-md-6 me-auto">
                   <input
                     type="text"
                     placeholder="Search..."
                     className="form-control"
                   />
-                </div>
-                <div className="col-lg-2 col-md-3 col-6">
+                </div> */}
+                {/* <div className="col-lg-2 col-md-3 col-6">
                   <select className="form-select">
                     <option>Status</option>
                     <option>Active</option>
                     <option>Disabled</option>
                     <option>Show all</option>
                   </select>
-                </div>
-                <div className="col-lg-2 col-md-3 col-6">
-                  <select className="form-select">
-                    <option>Show 20</option>
-                    <option>Show 30</option>
-                    <option>Show 40</option>
-                  </select>
-                </div>
+                </div> */}
               </div>
             </header>
             <Tableheader />
@@ -81,6 +74,7 @@ function SkillProviderList() {
                     date={item.jobdate}
                     skill={item.skill}
                     status={item.userstatus}
+                    number={item.phone}
                   />
                 </div>
               ))}
